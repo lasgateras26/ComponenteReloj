@@ -3,7 +3,11 @@ package com.alberto.componente;
 import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import java.util.*;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Reloj extends Label {
 
@@ -74,11 +78,15 @@ public class Reloj extends Label {
 
     private void formatoHora() {
         Calendar calendar = new GregorianCalendar();
-        if (formato24h != false)
-            setText(horas + ":" + minutos + ":" + segundos);
-        else
+        if (formato24h != true) {
+            if (horas < 12) {
+                setText(horas + " : " + minutos + " : " + segundos + " am");
+            }
+            setText(horas + " : " + minutos + ": " + segundos + " pm");
+        } else {
             horas = calendar.get(calendar.HOUR_OF_DAY);
-            setText(horas + ":" + minutos + ":" + segundos);
+            setText(horas + " : " + minutos + " : " + segundos);
+        }
     }
 
     private void calcularHora() {
