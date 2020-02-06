@@ -1,0 +1,90 @@
+package com.alberto.componente;
+
+import javafx.application.Platform;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import java.util.*;
+
+public class Reloj extends Label {
+
+    private int segundos;
+    private int minutos;
+    private int horas;
+    private boolean formato24h;
+
+    public Reloj() {
+    }
+
+    public Reloj(String s) {
+        super(s);
+    }
+
+    public Reloj(String s, Node node) {
+        super(s, node);
+    }
+
+    public int getSegundos() {
+        return segundos;
+    }
+
+    public void setSegundos(int segundos) {
+        this.segundos = segundos;
+    }
+
+    public int getMinutos() {
+        return minutos;
+    }
+
+    public void setMinutos(int minutos) {
+        this.minutos = minutos;
+    }
+
+    public int getHoras() {
+        return horas;
+    }
+
+    public void setHoras(int horas) {
+        this.horas = horas;
+    }
+
+    public boolean isFormato24h() {
+        return formato24h;
+    }
+
+    public void setFormato24h(boolean formato24h) {
+        this.formato24h = formato24h;
+    }
+
+    public void start() {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        calcularHora();
+                        formatoHora();
+                    }
+                });
+            }
+        }, 1000, 1000); // esperar un segundo en arrancar
+
+    }
+
+    private void formatoHora() {
+        Calendar calendar = new GregorianCalendar();
+        if (formato24h != false)
+            setText(horas + ":" + minutos + ":" + segundos);
+        else
+            horas = calendar.get(calendar.HOUR_OF_DAY);
+            setText(horas + ":" + minutos + ":" + segundos);
+    }
+
+    private void calcularHora() {
+        Calendar calendar = new GregorianCalendar();
+        horas = calendar.get(calendar.HOUR);
+        segundos = calendar.get(Calendar.SECOND);
+        minutos = calendar.get(Calendar.MINUTE);
+    }
+}
